@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 import Home from '../screens/Home';
 import TodoListScreen from '../screens/TodoList';
-// import Form from '../screens/Form';
+import About from '../screens/About';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,20 +41,20 @@ const BottomTabs: FC = () => {
                 options={{
                     tabBarLabel: 'TodoList',
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="account" color={color} size={size} />
+                        <MaterialCommunityIcons name="plus" color={color} size={size} />
                     )
                 }}
             />
-            {/* <Tab.Screen
-                name="Form"
-                component={Form}
+            <Tab.Screen
+                name="About"
+                component={About}
                 options={{
-                    tabBarLabel: 'Form',
+                    tabBarLabel: 'About',
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="account" color={color} size={size} />
                     )
                 }}
-            /> */}
+            />
         </Tab.Navigator>
     );
 };

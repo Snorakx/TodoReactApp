@@ -4,10 +4,14 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { IState } from '../../reducers'
-import todoListReducer, { ITodoListReducer } from '../../reducers/todoListReducer'
-
+import { ITodoListReducer } from '../../reducers/todoListReducer'
+import Constants from 'expo-constants';
 import { ISingleElementList } from '../../entities/todoSingleEl'
 import { deleteElemTodoList } from '../../actions/todoListActions';
+import { Dimensions } from 'react-native';
+
+const wW = Dimensions.get('window').width;
+const hW = Dimensions.get('window').height;
 
 
 const styles = StyleSheet.create({
@@ -15,27 +19,37 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'black'
     },
+    wrapper: {
+        marginTop: Constants.statusBarHeight
+    },
+    addbtn: {
+        backgroundColor: '#97ccb8',
+        marginBottom: 0.1 * hW,
+        height: 0.05 * hW,
+        borderRadius: wW
+    },
+    textaddbtn: {
+        textAlign: "center",
+        fontSize: 0.07 * wW
+    },
+    singleElList: {
+        marginTop: 0.05 * hW,
+        backgroundColor: '#8db88f'
+    },
+    titleTxt: {
+        textAlign: "center",
+        marginBottom: 0.02 * hW,
+        fontSize: 0.06 * wW,
+
+    },
+    holder: {
+        position: "absolute",
+        fontSize: 0.08 * wW,
+        marginLeft: 0.03 * wW
+
+    },
+
 });
-
-
-const BtnContainer = styled.View`
-background-color:#97ccb8;
-margin-bottom: 10%;
-border-radius: 10;
-
-
-`;
-const Wrapper = styled.View`
-margin:80px 20px 0 20px;
-background-color:black;
-
-`;
-
-const SingleElList = styled.View`
-    margin:0 0 5% 0;
-    background-color: #6dcfaa;
-    border-radius: 10px;
-`;
 const Titletxt = styled.Text`
     text-align: center;
     margin-bottom: 2%;
@@ -53,6 +67,11 @@ type DelNewElemTodoList = ReturnType<typeof deleteElemTodoList>;
 
 
 const TodoList: FC<{ switchView(formView: boolean) }> = props => {
+
+
+
+
+
     const dispatch = useDispatch();
     const todoListState = useSelector<IState, ITodoListReducer>(state => state.todoList)
     const goToForm = () => {
@@ -65,23 +84,22 @@ const TodoList: FC<{ switchView(formView: boolean) }> = props => {
 
     return (
         <View style={styles.container}>
-            <Wrapper>
-                <BtnContainer>
-                    <Button title='Dodaj nowy' color='black' onPress={goToForm} />
-                </BtnContainer>
+            <View style={styles.wrapper}>
+                <TouchableOpacity style={styles.addbtn} onPress={goToForm}><Text style={styles.textaddbtn}>Dodaj</Text></TouchableOpacity>
                 {todoListState.todoList.map((elem: ISingleElementList, index: number) =>
-                    <SingleElList key={index}>
+                    <View style={styles.singleElList} key={index}>
                         <TouchableOpacity onPress={() => deleteMe(index)}>
-                            <Titletxt>
+                            <Text style={styles.holder}>@</Text>
+                            <Text style={styles.titleTxt}>
                                 {elem.name}
-                            </Titletxt>
+                            </Text>
                             <Descriptiontxt>
                                 {elem.description}
                             </Descriptiontxt>
                         </TouchableOpacity>
-                    </SingleElList>
+                    </View>
                 )}
-            </Wrapper>
+            </View>
         </View>
 
 
